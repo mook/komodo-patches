@@ -10,11 +10,12 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <assert.h>
+#include <ctype.h>
 
-#include <string> // for current_delimiter
+#include <string>
 
 // Perl-compatible regular expression library -- see pcre.org
 #define PCRE_STATIC
@@ -34,18 +35,24 @@
 #endif
 
 #include "Platform.h"
-
-#include "PropSet.h"
-#include "Accessor.h"
-#include "KeyWords.h"
+#include "ILexer.h"
 #include "Scintilla.h"
 #include "SciLexer.h"
+
+#include "WordList.h"
+#include "LexAccessor.h"
+#include "Accessor.h"
+#include "StyleContext.h"
+#include "CharacterSet.h"
+#include "LexerModule.h"
 
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
 #endif
 
+#ifndef assert
 #define assert PLATFORM_ASSERT
+#endif
 
 //XXX Identical to Perl, put in common area
 static inline bool isEOLChar(char ch) {
